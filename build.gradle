@@ -3,24 +3,26 @@
 buildscript {
 
     ext {
-        pact_version = '3.5.10'
-        pact_version_code = 9
+        pact_version = '3.5.14'
+        pact_version_code = 14
+        library_namespace = 'com.github.janphkre'
+        library_id = 'laminat-retrofit-noop'
 
         min_sdk_version = 14
-        target_sdk_version = 28
-        kotlin_version = '1.3.41'
-        ktlint_version = '6.2.1'
+        target_sdk_version = 30
+        kotlin_version = '1.7.10'
+        ktlint_version = '10.2.0'
     }
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:$ktlint_version"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlint_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -30,7 +32,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -38,13 +40,16 @@ subprojects {
     apply plugin: 'org.jlleitschuh.gradle.ktlint'
 
     ktlint {
-        version = "0.22.0"
+        version = "0.42.1" //version is taken from the ktlint idea plugin
         debug = false
         verbose = false
         android = true
         outputToConsole = true
-        reporters = []
-        ignoreFailures = true
+        outputColorName = "RED"
+        ignoreFailures = false
+        filter {
+            exclude("**/build/**")
+        }
     }
 }
 
